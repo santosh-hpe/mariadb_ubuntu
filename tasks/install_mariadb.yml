@@ -1,0 +1,45 @@
+---
+- name: Install prerequisites
+  apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
+  loop: [ 'aptitude' ]
+
+- name: Update repos
+  apt:
+    name: "*"
+    state: latest
+    update_cache: yes
+
+ #Install MariaDB server
+- name: Install MariaDB Packages
+  apt: name={{ item }} update_cache=yes state=latest
+  loop: [ 'mariadb-server', 'python3-pymysql' , 'python3-mysqldb' , 'python-apt' ]
+
+  #- name: Replace bind-address in conf file
+  #hosts: all
+  #tasks:
+- name: Replace bind-address
+  replace:
+    path: /etc/mysql/mariadb.conf.d/50-server.cnf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+# Start MariaDB Service
+- name: Start MariaDB service
+  service:
+    name: mariadb
+    state: started
+  become: true
+
+# Start UFW Service
+- name: Start UFW service
+  service:
+    name: ufw
+    state: started
+  become: true
+
+# UFW Configuration
+- name: "UFW - Allow mysql_port"
+  ufw:
+    rule: allow
+    port: "{{ mysql_port }}"
+    proto: tcp

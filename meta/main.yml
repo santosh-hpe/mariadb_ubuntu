@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  role_name: mariadb
+  author: santosh-hpe
+  description: Manage MariaDB on a Ubuntu based Linux distribution.
+  license: BSD
+  min_ansible_version: 2.9
+  platforms:
+    - name: EL
+      versions:
+        - 7
+  galaxy_tags:
+    - database
+    - sql
+dependencies: []
