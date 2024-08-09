@@ -36,3 +36,11 @@
     login_user: "{{ morpheus['customOptions']['databaseUserName'] }}"
     login_password: "{{ morpheus['customOptions']['databasePassword'] }}"
     state: present
+
+# Restart MariaDB Service
+- name: Restart MariaDB service
+  service:
+    name: mariadb
+    state: restarted
+  become: true
+
