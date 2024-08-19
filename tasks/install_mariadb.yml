@@ -1,13 +1,13 @@
 ---
+- name: Install prerequisites
+  apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
+  loop: [ 'aptitude' ]
+
 - name: Update repos
   apt:
     name: "*"
     state: latest
     update_cache: yes
-
-- name: Install prerequisites
-  apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
-  loop: [ 'aptitude' ]
 
 # Install MariaDB server
 - name: Install MariaDB Packages
